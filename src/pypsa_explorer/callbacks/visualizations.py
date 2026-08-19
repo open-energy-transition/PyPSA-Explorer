@@ -47,7 +47,9 @@ def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) ->
             else:
                 axis_key = "yaxis"
 
-            values = getattr(trace, "y", []) or []
+            values = getattr(trace, "y", None)
+            if values is None:
+                continue
             try:
                 iterator = list(values)
             except TypeError:
