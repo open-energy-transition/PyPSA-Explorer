@@ -16,7 +16,7 @@ from pypsa_explorer.layouts.components import (
     PLEASE_SELECT_CARRIER_MSG,
     create_error_message,
 )
-from pypsa_explorer.utils.helpers import get_carrier_nice_name, get_country_filter
+from pypsa_explorer.utils.helpers import apply_carrier_colors, get_carrier_nice_name, get_country_filter
 
 
 def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) -> None:
@@ -56,7 +56,7 @@ def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) ->
                 continue
 
             categories = axis_categories.setdefault(axis_key, set())
-            for value in iterator:
+            for value in values:
                 if value is None:
                     continue
                 categories.add(value)
@@ -125,6 +125,7 @@ def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) ->
                     if aggregated:
                         # Bar plot for aggregated view
                         fig = s.energy_balance.iplot.bar(**plot_args)
+                        apply_carrier_colors(fig, n)
                     else:
                         # Area plot for timeseries view
                         plot_args.update(
@@ -315,6 +316,7 @@ def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) ->
                     query=query,
                     facet_col=facet_col,
                 )
+                apply_carrier_colors(fig, n)
 
                 # Set title based on selections
                 carrier_name = get_carrier_nice_name(n, carrier)
@@ -407,6 +409,7 @@ def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) ->
                 query=query,
                 facet_col=facet_col,
             )
+            apply_carrier_colors(fig, n)
 
             # Set title based on selections
             title = "Capital Expenditure Totals"
@@ -490,6 +493,7 @@ def register_visualization_callbacks(app, networks: dict[str, pypsa.Network]) ->
                 query=query,
                 facet_col=facet_col,
             )
+            apply_carrier_colors(fig, n)
 
             # Set title based on selections
             title = "Operational Expenditure Totals"
