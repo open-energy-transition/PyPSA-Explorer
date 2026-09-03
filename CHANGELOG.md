@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-03
+
+### Fixed
+- Handle array input for PyPSA ≥ 1.2.3's merged multi-element bar traces
+- Require IPython dependency for all installs, fixing missing dependency for maps
+
 ## [0.1.1] - 2025-11-26
 
 ### Added
@@ -49,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - None
 
-[Unreleased]: https://github.com/open-energy-transition/pypsa-explorer/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/open-energy-transition/pypsa-explorer/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/open-energy-transition/pypsa-explorer/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/open-energy-transition/pypsa-explorer/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/open-energy-transition/pypsa-explorer/releases/tag/v0.1.0

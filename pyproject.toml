@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pypsa-explorer"
-version = "0.1.1"
+version = "0.1.2"
 description = "Interactive dashboard for visualizing and analyzing PyPSA energy system networks"
 authors = [
     {name = "Open Energy Transition", email = "info@openenergytransition.org"}

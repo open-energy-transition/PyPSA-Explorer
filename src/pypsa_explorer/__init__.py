@@ -5,7 +5,7 @@ This package provides a comprehensive web-based dashboard for exploring PyPSA ne
 with interactive visualizations, filtering capabilities, and multi-network support.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.2"
 __author__ = "Open Energy Transition"
 __email__ = "info@openenergytransition.org"
 
