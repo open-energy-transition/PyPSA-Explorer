@@ -3,6 +3,7 @@
 import pytest
 
 from pypsa_explorer.utils.helpers import (
+    apply_carrier_colors,
     convert_latex_to_html,
     get_bus_carrier_options,
     get_carrier_nice_name,
@@ -37,6 +38,19 @@ class TestCarrierHelpers:
         """Test getting carrier nice names."""
         nice_name = get_carrier_nice_name(demo_network, "wind")
         assert nice_name == "Wind"
+
+    def test_apply_carrier_colors(self, demo_network):
+        """Bars colored by carrier pick up the network's carrier colors."""
+        fig = demo_network.statistics.installed_capacity.iplot.bar(
+            x="value", y="carrier", color="carrier", nice_names=True, width=None
+        )
+        assert isinstance(fig.data[0].marker.color, str)
+
+        apply_carrier_colors(fig, demo_network)
+
+        colors_by_label = dict(zip(fig.data[0].y, fig.data[0].marker.color, strict=True))
+        assert colors_by_label["Solar"] == "#ffea00"
+        assert colors_by_label["Wind"] == "#74c6f2"
 
     def test_get_bus_carrier_options(self, demo_network):
         """Test getting bus carrier options for UI."""

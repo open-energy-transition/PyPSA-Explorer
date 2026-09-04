@@ -5,8 +5,11 @@ from contextlib import suppress
 from pathlib import Path
 from typing import Any
 
+import plotly.graph_objects as go
 import pypsa
 from dash import html
+from pypsa.plot.statistics.base import sanitize_mathtext
+from pypsa.plot.statistics.charts import ChartGenerator
 
 
 def title_except_multi_caps(text: str) -> str:
@@ -57,6 +60,27 @@ def get_carrier_nice_name(n: pypsa.Network, carrier: str) -> str:
     return title_except_multi_caps(
         n.carriers.nice_name.where(n.carriers.nice_name.ne(""), n.carriers.index.to_series()).at[carrier]
     )
+
+
+def apply_carrier_colors(fig: go.Figure, n: pypsa.Network) -> None:
+    """Color each bar by its carrier, in place.
+
+    PyPSA drops the color mapping for bar charts when ``color`` equals the
+    categorical axis (it treats it as redundant), so the explorer's
+    ``y="carrier", color="carrier"`` bars render in a single default color.
+    This reapplies the network's carrier colors per bar, matching the nice-name
+    labels PyPSA puts on the axis.
+    """
+    raw_colors = ChartGenerator(n).get_carrier_colors(nice_names=True)
+    color_map = {sanitize_mathtext(label): color for label, color in raw_colors.items()}
+
+    for trace in fig.data:
+        if trace.type != "bar":
+            continue
+        categories = trace.y if trace.orientation == "h" else trace.x
+        if categories is None:
+            continue
+        trace.marker.color = [color_map.get(category, "#AAAAAA") for category in categories]
 
 
 def convert_latex_to_html(text: str) -> html.Span:
